@@ -11,6 +11,7 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+			//Inflate home layout to replace content holder.
 			View rootView = inflater.inflate(R.layout.home, null);
 			return rootView;
 	}
