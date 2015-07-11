@@ -5,16 +5,14 @@ import java.util.List;
 import com.moonshot.dev4x.R;
 import com.moonshot.dev4x.helpers.DatabaseHelper;
 import com.moonshot.dev4x.models.*;
-
+import com.moonshot.dev4x.eventhandlers.IconClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -45,16 +43,31 @@ public class HomeFragment extends Fragment {
 	
 	public void buildLayout(){
 		for(int i=0;i<nodeList.size();i++){
-			ImageView nodeImage = new ImageView(getActivity());
-			LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-			layoutParams.gravity=Gravity.CENTER;
-			nodeImage.setLayoutParams(layoutParams);
-			nodeImage.setScaleType(ScaleType.CENTER_INSIDE);
-			String uri = "@drawable/"+nodeList.get(i).getIcon();
-			int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
-			Drawable res = getResources().getDrawable(imageResource);
-			nodeImage.setImageDrawable(res);
+			ImageView nodeImage = createImageView(i);
 			homeContainer.addView(nodeImage);
 		}
+	}
+	
+	public ImageView createImageView(int imageCount){
+		ImageView nodeImage = new ImageView(getActivity());
+		/////Setting up layout params
+		LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		layoutParams.gravity=Gravity.CENTER;
+		nodeImage.setLayoutParams(layoutParams);
+		nodeImage.setId(nodeList.get(imageCount).getId());
+		////////////
+		
+		////Setting up image drawable to show icon
+		nodeImage.setScaleType(ScaleType.CENTER_INSIDE);
+		String uri = "@drawable/"+nodeList.get(imageCount).getIcon();
+		int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
+		Drawable res = getResources().getDrawable(imageResource);
+		nodeImage.setImageDrawable(res);
+		////////////////////////
+		
+		///////Adding event handler////
+		nodeImage.setOnClickListener(new IconClickListener(getActivity()));
+		//////////
+		return nodeImage;
 	}
 }

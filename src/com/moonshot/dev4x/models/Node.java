@@ -4,15 +4,17 @@ public class Node {
 	int _id;
 	String _name;
 	String _icon;
+	String _content;
 	public Node() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Node(int id, String name, String icon) {
+	public Node(int id, String name, String icon, String content) {
 		// TODO Auto-generated constructor stub
 		this._id = id;
 		this._name = name;
 		this._icon = icon;
+		this._content = content;
 	}
 	
 	public String getName(){
@@ -37,5 +39,13 @@ public class Node {
 	
 	public void setIcon(String icon){
 		this._icon = icon;
+	}
+	
+	public String getContent(){
+		return this._content;
+	}
+	
+	public void setContent(String content){
+		this._content = content;
 	}
 }

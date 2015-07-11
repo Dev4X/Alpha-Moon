@@ -5,7 +5,7 @@
     android:background="#0b0b0b"
     android:gravity="center"
     android:id="@+id/homeContainer"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
     
 
 </LinearLayout>
