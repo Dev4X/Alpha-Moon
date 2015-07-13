@@ -15,6 +15,9 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="com.moonshot.dev4x.ui.VideoViewerActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
       
 
     </application>

@@ -1,10 +1,18 @@
 package com.moonshot.dev4x.eventhandlers;
 
+import com.moonshot.dev4x.R;
 import com.moonshot.dev4x.helpers.DatabaseHelper;
 import com.moonshot.dev4x.models.Node;
+import com.moonshot.dev4x.ui.HomeFragment;
+import com.moonshot.dev4x.ui.VideoViewerActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -20,9 +28,10 @@ public class IconClickListener implements OnClickListener{
 		Node node = dbHelper.getNode(nodeId);
 		
 		if(node != null){
-			//Get media content and play it.
-			MediaPlayer mediaPlayer = MediaPlayer.create(context, context.getResources().getIdentifier("@raw/"+node.getContent(),null, context.getPackageName()));
-			mediaPlayer.start(); 
+			//Creating Video Viewer Fragment.
+			Intent videoIntent = new Intent((FragmentActivity)context, VideoViewerActivity.class);
+			videoIntent.putExtra("content", node.getContent());
+			((FragmentActivity)context).startActivity(videoIntent);
 		}
 	}
 	

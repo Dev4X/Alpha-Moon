@@ -20,10 +20,12 @@ public final class R {
         public static final int homeContainer=0x7f070003;
         public static final int imgLogo=0x7f070001;
         public static final int topToolBar=0x7f070000;
+        public static final int videoViewComponent=0x7f070004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int home=0x7f030001;
+        public static final int video_viewer=0x7f030002;
     }
     public static final class raw {
         public static final int abc=0x7f040000;
