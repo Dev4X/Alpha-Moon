@@ -13,6 +13,7 @@ public class VideoCompleteListener implements MediaPlayer.OnCompletionListener{
 		//Do the database activity like increasing count and records.
 		DatabaseHelper db =  new DatabaseHelper(context);
 		db.increaseViewCountofContent(((VideoViewerActivity)this.context).nodeId);
+		((VideoViewerActivity)this.context).isVideoCompleted = true;
 		db.createVideoConsumptionSessionEvent(((VideoViewerActivity)this.context).nodeId, "complete");//Adding complete event
 		((VideoViewerActivity)this.context).finish();
 	}

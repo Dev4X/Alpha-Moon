@@ -111,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void createVideoConsumptionSessionEvent(int nodeId, String event){
+		Log.v("VideoStatus","VideoStatus-" + event);
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(ID, nodeId);

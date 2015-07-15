@@ -15,6 +15,8 @@ public class VideoViewerActivity extends Activity {
 	long videoSessionId;
 	public int nodeId;
 	DatabaseHelper db;
+	boolean isActivityStarted = false;
+	public boolean isVideoCompleted = false;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class VideoViewerActivity extends Activity {
 		//setting start event for video in database
 		db = new DatabaseHelper(this);
 		db.createVideoConsumptionSessionEvent(nodeId, "start");
-		
+		this.isActivityStarted = true;
 		//assign video path and start playing
 		this.videoView = (VideoView)findViewById(R.id.videoViewComponent);
 		String path = "android.resource://" + getPackageName() + "/" + "raw/"+content;
@@ -45,7 +47,9 @@ public class VideoViewerActivity extends Activity {
 	    if(this.isFinishing()){
 	    	Log.v("VideoStatus","VideoStatus stopped");
 	    	//User press back button of android phone, hence stop event
-	    	db.createVideoConsumptionSessionEvent(nodeId, "stop");
+	    	if(this.isVideoCompleted == false){
+	    		db.createVideoConsumptionSessionEvent(nodeId, "stop");
+	    	}
 	    }else{
 	    	Log.v("VideoStatus","VideoStatus Paused");
 	    	db.createVideoConsumptionSessionEvent(nodeId, "pause");
@@ -57,7 +61,11 @@ public class VideoViewerActivity extends Activity {
 	    super.onResume();
 	    //Database action to video resume
 	    videoView.seekTo(this.videoPosition);
-	    db.createVideoConsumptionSessionEvent(nodeId, "resume");
+	    if(!this.isActivityStarted){
+	    	db.createVideoConsumptionSessionEvent(nodeId, "resume");
+	    }else{
+	    	this.isActivityStarted = false;
+	    }
 	    videoView.start();
 	}
 }
