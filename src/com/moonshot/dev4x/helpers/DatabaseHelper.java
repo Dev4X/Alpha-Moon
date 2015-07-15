@@ -8,22 +8,29 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import com.moonshot.dev4x.models.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 4;//Initial database version
 	private static final String DATABASE_NAME = "dev4xDb"; //Name of database
 	String DEV4X_NODES_TABLE = "dev4x_nodes";
-	String ID = "dev4x_nodes";
+	String ID = "id";
 	String NODE_NAME = "name";
 	String NODE_ICON = "icon";
+	String VIEW_COUNT = "view_count";
 	String NODE_CONTENT = "content";
+	
+	String COUNT = "count";
+	String DEV4X_CONTENT_CONSUMPTIONS = "dev4x_content_consumptions";
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		//Create tables.
 		
-		String metaDataSql = "CREATE TABLE "+DEV4X_NODES_TABLE+" (id INTEGER PRIMARY KEY, "+NODE_NAME+" TEXT, "+NODE_ICON+" TEXT, "+NODE_CONTENT+" TEXT)";
+		String metaDataSql = "CREATE TABLE "+DEV4X_NODES_TABLE+" (id INTEGER PRIMARY KEY, "+NODE_NAME+" TEXT, "+NODE_ICON+
+						" TEXT, "+NODE_CONTENT+" TEXT, "+VIEW_COUNT+" INTEGER)";
 		db.execSQL(metaDataSql);
 		
 		//Inserting dummy nodes values.
@@ -33,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(NODE_NAME, "VerbelSkills");
 		values.put(NODE_ICON, "abc120");
 		values.put(NODE_CONTENT, "abc");
+		values.put(VIEW_COUNT, 0);
 		db.insert(DEV4X_NODES_TABLE, null, values);
 	}
 
@@ -76,5 +84,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 		}
 		return null;
+	}
+	
+	public void increaseViewCountofContent(int nodeId){
+		SQLiteDatabase db = this.getWritableDatabase();
+		String selectQuery = "SELECT  * FROM " + DEV4X_NODES_TABLE + " WHERE "+ ID + " = " + nodeId;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if (cursor.moveToFirst()) {
+			int currentCount = cursor.getInt(4);
+			currentCount++;
+			ContentValues values = new ContentValues();
+			values.put(VIEW_COUNT, currentCount);
+			db.update(DEV4X_NODES_TABLE, values, ID + " = ?",
+					new String[] { String.valueOf(nodeId) });
+			Log.v("VideoCount","VideoCount " + currentCount);
+		}
 	}
 }

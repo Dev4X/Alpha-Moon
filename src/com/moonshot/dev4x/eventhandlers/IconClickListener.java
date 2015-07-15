@@ -31,6 +31,7 @@ public class IconClickListener implements OnClickListener{
 			//Creating Video Viewer Fragment.
 			Intent videoIntent = new Intent((FragmentActivity)context, VideoViewerActivity.class);
 			videoIntent.putExtra("content", node.getContent());
+			videoIntent.putExtra("id", node.getId());
 			((FragmentActivity)context).startActivity(videoIntent);
 		}
 	}
