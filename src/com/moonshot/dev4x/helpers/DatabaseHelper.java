@@ -21,9 +21,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	String NODE_ICON = "icon";
 	String VIEW_COUNT = "view_count";
 	String NODE_CONTENT = "content";
-	
 	String COUNT = "count";
+	
 	String DEV4X_CONTENT_CONSUMPTIONS = "dev4x_content_consumptions";
+	String CONSUMPTION_ID = "cid";//Kind of session id for each video play
+	String EVENT = "event";//Can be start, pause(stop), resume, complete, error
+	String TIME = "time";//Time of event
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
@@ -31,7 +35,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		String metaDataSql = "CREATE TABLE "+DEV4X_NODES_TABLE+" (id INTEGER PRIMARY KEY, "+NODE_NAME+" TEXT, "+NODE_ICON+
 						" TEXT, "+NODE_CONTENT+" TEXT, "+VIEW_COUNT+" INTEGER)";
+		String cosumptionSql = "CREATE TABLE " + DEV4X_CONTENT_CONSUMPTIONS + " ( " + CONSUMPTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+				ID + " INTEGER, " + EVENT + " TEXT, " + TIME + " REAL)";
 		db.execSQL(metaDataSql);
+		db.execSQL(cosumptionSql);
 		
 		//Inserting dummy nodes values.
 		
@@ -48,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 		db.execSQL("DROP TABLE IF EXISTS " + DEV4X_NODES_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + DEV4X_CONTENT_CONSUMPTIONS);
 		this.onCreate(db);
 	}
 	
@@ -100,5 +108,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					new String[] { String.valueOf(nodeId) });
 			Log.v("VideoCount","VideoCount " + currentCount);
 		}
+	}
+	
+	public void createVideoConsumptionSessionEvent(int nodeId, String event){
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(ID, nodeId);
+		values.put(EVENT, event);
+		values.put(TIME, System.currentTimeMillis());
+		db.insert(DEV4X_CONTENT_CONSUMPTIONS, null, values);
 	}
 }
