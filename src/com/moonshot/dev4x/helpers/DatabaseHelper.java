@@ -23,12 +23,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		//Create tables.
 		
-		String metaDataSql = "CREATE TABLE "+DEV4X_NODES_TABLE+" (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+NODE_NAME+" TEXT, "+NODE_ICON+" TEXT, "+NODE_CONTENT+" TEXT)";
+		String metaDataSql = "CREATE TABLE "+DEV4X_NODES_TABLE+" (id INTEGER PRIMARY KEY, "+NODE_NAME+" TEXT, "+NODE_ICON+" TEXT, "+NODE_CONTENT+" TEXT)";
 		db.execSQL(metaDataSql);
 		
 		//Inserting dummy nodes values.
 		
 		ContentValues values = new ContentValues();
+		values.put(ID, "1");
 		values.put(NODE_NAME, "VerbelSkills");
 		values.put(NODE_ICON, "abc120");
 		values.put(NODE_CONTENT, "abc");
