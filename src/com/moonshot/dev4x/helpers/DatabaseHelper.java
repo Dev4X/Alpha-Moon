@@ -42,13 +42,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		//Inserting dummy nodes values.
 		
-		ContentValues values = new ContentValues();
-		values.put(ID, "1");
-		values.put(NODE_NAME, "VerbelSkills");
-		values.put(NODE_ICON, "abc120");
-		values.put(NODE_CONTENT, "abc");
-		values.put(VIEW_COUNT, 0);
-		db.insert(DEV4X_NODES_TABLE, null, values);
+		ContentValues node1Values = new ContentValues();
+		node1Values.put(ID, "1");
+		node1Values.put(NODE_NAME, "VerbelSkills");
+		node1Values.put(NODE_ICON, "node1");
+		node1Values.put(NODE_CONTENT, "abc");
+		node1Values.put(VIEW_COUNT, 0);
+		db.insert(DEV4X_NODES_TABLE, null, node1Values);
+		
+		ContentValues node2Values = new ContentValues();
+		node2Values.put(ID, "2");
+		node2Values.put(NODE_NAME, "MathSkills");
+		node2Values.put(NODE_ICON, "node2");
+		node2Values.put(NODE_CONTENT, "abc");
+		node2Values.put(VIEW_COUNT, 0);
+		db.insert(DEV4X_NODES_TABLE, null, node2Values);
 	}
 
 	@Override

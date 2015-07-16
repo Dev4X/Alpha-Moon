@@ -53,6 +53,8 @@ public class HomeFragment extends Fragment {
 		/////Setting up layout params
 		LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity=Gravity.CENTER;
+		layoutParams.rightMargin = 20;
+		layoutParams.leftMargin = 20;
 		nodeImage.setLayoutParams(layoutParams);
 		nodeImage.setId(nodeList.get(imageCount).getId());
 		////////////

@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0b0b0b"
+    android:background="@drawable/background"
     android:orientation="vertical" >
     
     <RelativeLayout
         android:id="@+id/topToolBar"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="#FFFFFF"
         android:gravity="center" >
         
         <ImageView
