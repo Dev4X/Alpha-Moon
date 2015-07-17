@@ -33,6 +33,7 @@ public class IconClickListener implements OnClickListener{
 			videoIntent.putExtra("content", node.getContent());
 			videoIntent.putExtra("id", node.getId());
 			((FragmentActivity)context).startActivity(videoIntent);
+			((FragmentActivity)context).finish();
 		}
 	}
 	

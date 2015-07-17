@@ -5,8 +5,12 @@ import com.moonshot.dev4x.eventhandlers.VideoCompleteListener;
 import com.moonshot.dev4x.helpers.DatabaseHelper;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.VideoView;
 public class VideoViewerActivity extends Activity {
@@ -49,6 +53,12 @@ public class VideoViewerActivity extends Activity {
 	    	//User press back button of android phone, hence stop event
 	    	if(this.isVideoCompleted == false){
 	    		db.createVideoConsumptionSessionEvent(nodeId, "stop");
+	    	}else{
+	    		//starting main activity and pass param to start assessment
+	    		Intent mainIntent = new Intent(this, MainActivity.class);
+	    		mainIntent.putExtra("assesment", true);
+	    		mainIntent.putExtra("nodeId", this.nodeId);
+				startActivity(mainIntent);
 	    	}
 	    }else{
 	    	Log.v("VideoStatus","VideoStatus Paused");

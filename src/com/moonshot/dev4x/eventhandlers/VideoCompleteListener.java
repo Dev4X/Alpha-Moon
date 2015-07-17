@@ -1,9 +1,16 @@
 package com.moonshot.dev4x.eventhandlers;
 
+import com.moonshot.dev4x.R;
 import com.moonshot.dev4x.helpers.DatabaseHelper;
+import com.moonshot.dev4x.ui.AssesmentFragment;
+import com.moonshot.dev4x.ui.HomeFragment;
 import com.moonshot.dev4x.ui.VideoViewerActivity;
+
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.v4.app.Fragment;
 
 public class VideoCompleteListener implements MediaPlayer.OnCompletionListener{
 	private Context context;
