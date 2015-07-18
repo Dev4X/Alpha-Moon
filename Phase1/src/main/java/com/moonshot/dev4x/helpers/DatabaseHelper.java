@@ -35,14 +35,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
 
         // Iterate through lines (assuming each insert has its own line and theres no other stuff)
+        int line = 0;
         try {
             while (insertReader.ready()) {
                 String insertStmt = insertReader.readLine();
                 db.execSQL(insertStmt);
+                line++;
             }
             insertReader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("MASUDDIIIIIIOOOO Errored at line " + line);
         }
 
         //Inserting dummy nodes values.
