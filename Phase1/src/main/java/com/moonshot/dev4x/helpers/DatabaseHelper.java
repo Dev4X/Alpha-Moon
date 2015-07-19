@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +23,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
 
+    //Constructor function to create or connecte to database.
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        setContext(context);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Create tables.
@@ -34,38 +39,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         InputStream insertsStream = context.getResources().openRawResource(rawResourceId);
         BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
 
-        // Iterate through lines (assuming each insert has its own line and theres no other stuff)
-        int line = 0;
+        // Load the sql into a String
+        String fullSql = null;
         try {
+            StringBuilder sb = new StringBuilder("");
             while (insertReader.ready()) {
-                String insertStmt = insertReader.readLine();
-                db.execSQL(insertStmt);
-                line++;
+                String sqlLine = insertReader.readLine();
+                sb.append(sqlLine);
             }
             insertReader.close();
+            fullSql = sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("MASUDDIIIIIIOOOO Errored at line " + line);
         }
 
-        //Inserting dummy nodes values.
-
-        ContentValues values = new ContentValues();
-        values.put(NODE_NAME, "VerbelSkills");
-        values.put(NODE_ICON, "abc120");
-        db.insert(DEV4X_NODES_TABLE, null, values);
+        // execute the sql one statement at a time
+        int line = 0;
+        try {
+            String[] sqlStatements = fullSql.split(";");
+            for (String sqlStatement : sqlStatements) {
+                db.execSQL(sqlStatement);
+                line++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Errored at line " + line);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
         // TODO Auto-generated method stub
 
-    }
-
-    //Constructor function to create or connecte to database.
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        setContext(context);
     }
 
     //Function to get all the skill nodes
@@ -78,7 +83,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Node node = new Node(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+                Node node = new Node(
+                        Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getString(4)
+                );
                 nodeList.add(node);
             } while (cursor.moveToNext());
         }
