@@ -11,7 +11,7 @@ Step2: Start up Android Studio ( https://developer.android.com/sdk/index.html )
 
 File > New > Import Project... Select the Phase1 folder you just cloned in the terminal.
 
-Now the project should load, and you should see sections 'Phase1-Phase1' and 'Gradle Scripts' in the Project tab on the left.
+Now the project should load, and you should see sections 'app' and 'Gradle Scripts' in the Project tab on the left.
 
 Step 3: You can test by clicking the green triangle to run.
 
