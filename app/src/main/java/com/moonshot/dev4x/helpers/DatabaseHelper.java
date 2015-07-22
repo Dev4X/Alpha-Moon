@@ -77,22 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             System.err.println("Errored at line " + line);
         }
-
-        ContentValues node1Values = new ContentValues();
-        node1Values.put(ID, "1");
-        node1Values.put(NODE_NAME, "VerbalSkills");
-        node1Values.put(NODE_ICON, "node1");
-        node1Values.put(NODE_CONTENT, "abc");
-        node1Values.put(VIEW_COUNT, 0);
-        db.insert(DEV4X_NODES_TABLE, null, node1Values);
-
-        ContentValues node2Values = new ContentValues();
-        node2Values.put(ID, "2");
-        node2Values.put(NODE_NAME, "MathSkills");
-        node2Values.put(NODE_ICON, "node2");
-        node2Values.put(NODE_CONTENT, "abc");
-        node2Values.put(VIEW_COUNT, 0);
-        db.insert(DEV4X_NODES_TABLE, null, node2Values);
     }
 
     @Override
@@ -113,7 +97,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Node node = new Node(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                Node node = new Node(
+                        Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getString(4));
                 nodeList.add(node);
             } while (cursor.moveToNext());
         }
@@ -126,7 +115,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                Node node = new Node(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                Node node = new Node(
+                        Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getString(4));
                 return node;
             } while (cursor.moveToNext());
         }
@@ -139,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
-            int currentCount = cursor.getInt(4);
+            int currentCount = cursor.getInt(3);
             currentCount++;
             ContentValues values = new ContentValues();
             values.put(VIEW_COUNT, currentCount);

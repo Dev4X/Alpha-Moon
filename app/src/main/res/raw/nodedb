@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS dev4x_nodes (
+  id INT NOT NULL,
+  name VARCHAR(45) NULL,
+  icon VARCHAR(45) NULL,
+  view_count INT NULL,
+  content VARCHAR(45) NULL,
+  PRIMARY KEY (id));
+
+CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
+  cid INT NOT NULL,
+  id INT NULL,
+  event VARCHAR(45) NULL,
+  time TIMESTAMP NULL,
+  PRIMARY KEY (cid),
+  CONSTRAINT id
+    FOREIGN KEY (id)
+    REFERENCES dev4x_nodes (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE INDEX id_idx ON dev4x_content_consumptions (id ASC);
+
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content) VALUES (1, 'VerbalSkills', 'node1', 0, 'abc');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content) VALUES (2, 'MathSkills', 'node2', 0, 'abc');
