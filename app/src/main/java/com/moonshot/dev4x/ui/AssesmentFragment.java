@@ -26,6 +26,7 @@ import android.media.MediaPlayer;
 public class AssesmentFragment extends Fragment {
 	HashMap<String, String> letters=new HashMap<String, String>();
 	List<String> lettersKeys = new ArrayList<String>();
+	List<String> availableLetterKeys = new ArrayList<String>();
 	LinearLayout assesmentContainer;
 	int totalAssessmentTries = 10;
 	int currentAssessmentCount = 0;
@@ -34,6 +35,10 @@ public class AssesmentFragment extends Fragment {
 	int currentTryOfAssessment = 0;
 	TextView numberOfTriesLeft;
 	Timer nextAssessmentTimer;
+	int totalCorrectAnswers = 0;
+	long assessmentStartTime;
+	long assessmentEndTime;
+	int totalInCorrectAnswers=0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -52,6 +57,11 @@ public class AssesmentFragment extends Fragment {
 			lettersKeys.add("A");
 			lettersKeys.add("B");
 			lettersKeys.add("C");
+
+			availableLetterKeys.add("A");
+			availableLetterKeys.add("B");
+			availableLetterKeys.add("C");
+			assessmentStartTime = System.currentTimeMillis();
 			startAssessment();
 			return rootView;
 	}
@@ -99,10 +109,17 @@ public class AssesmentFragment extends Fragment {
 	public void setRandomLetterForAssessment(){
 		//Setting random letter for current assessment;
 		int min = 0;
-		int max = 2;
+		int max = (availableLetterKeys.size() - 1);
 		Random r = new Random();
 		int number = r.nextInt(max - min + 1) + min;
-		currentLetterOfAssessment = lettersKeys.get(number);
+		currentLetterOfAssessment = availableLetterKeys.get(number);
+		//Remove used letter for next assessment.
+		availableLetterKeys.clear();
+		for(int i=0;i<lettersKeys.size();i++){
+			if(!lettersKeys.get(i).equals(currentLetterOfAssessment)) {
+				availableLetterKeys.add(lettersKeys.get(i));
+			}
+		}
 	}
 
 	public void playAudioPrompt(){
@@ -124,10 +141,13 @@ public class AssesmentFragment extends Fragment {
 		int imageResource = getResources().getIdentifier(letterTouched.toLowerCase()+"green", "drawable", getActivity().getPackageName());
 		Drawable res = getResources().getDrawable(imageResource);
 		icon.setImageDrawable(res);
+		totalCorrectAnswers++;
 		playSuccessPrompt();
-		if(currentTryOfAssessment == totalAssessmentTries){
+		if((currentTryOfAssessment == totalAssessmentTries) || totalCorrectAnswers == 3){
 			//Game is over.
 			numberOfTriesLeft.setText("Game Over");
+			assesmentContainer.removeAllViews();
+			assessmentEndTime = System.currentTimeMillis();
 		}else{
 			startAssessmentAfterDelay();
 		}
@@ -139,11 +159,10 @@ public class AssesmentFragment extends Fragment {
 		Drawable res = getResources().getDrawable(imageResource);
 		icon.setImageDrawable(res);
 		icon.setOnClickListener(null);
-		currentTryOfAssessment++;
-
-		if(currentTryOfAssessment == totalTryPerAssessment){
-			startAssessmentAfterDelay();
-		}
+		currentAssessmentCount++;
+		playAudioPrompt();
+		numberOfTriesLeft.setText("Tries " + currentAssessmentCount + "/" + totalAssessmentTries);
+		totalInCorrectAnswers++;
 	}
 
 	public void startAssessmentAfterDelay(){
