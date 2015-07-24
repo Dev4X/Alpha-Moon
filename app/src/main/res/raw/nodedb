@@ -18,6 +18,19 @@ CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+CREATE TABLE IF NOT EXISTS dev4x_assessments (
+  aid INT NOT NULL,
+  id INT NULL,
+  incorrect_selections INT NULL,
+  is_completed BOOLEAN,
+  time TIMESTAMP NULL,
+  PRIMARY KEY (aid),
+  CONSTRAINT id
+    FOREIGN KEY (id)
+    REFERENCES dev4x_nodes (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 CREATE INDEX id_idx ON dev4x_content_consumptions (id ASC);
 
 INSERT INTO dev4x_nodes (id, name, icon, view_count, content) VALUES (1, 'VerbalSkills', 'node1', 0, 'abc');
