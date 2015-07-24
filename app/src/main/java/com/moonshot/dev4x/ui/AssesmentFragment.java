@@ -74,7 +74,6 @@ public class AssesmentFragment extends Fragment {
 		numberOfTriesLeft.setText("Tries " + currentAssessmentCount + "/" + totalAssessmentTries);//show on view
 		randomizeList();
 		setRandomLetterForAssessment();
-		playAudioPrompt();
 		repeatPrompt();
 	}
 
