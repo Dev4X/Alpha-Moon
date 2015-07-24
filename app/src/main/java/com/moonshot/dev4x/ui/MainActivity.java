@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity{
 			bundle.putString("nodeId", getIntent().getExtras().getString("nodeId"));
 			assessmentFragment.setArguments(bundle);
 		    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		    fragmentTransaction.replace(R.id.contentHolder, assessmentFragment);
+		    fragmentTransaction.replace(R.id.contentHolder, assessmentFragment,"ASSESSMENT_FRAGMENT");
 		    fragmentTransaction.addToBackStack(null);
 		    fragmentTransaction.commit(); 
 		}
