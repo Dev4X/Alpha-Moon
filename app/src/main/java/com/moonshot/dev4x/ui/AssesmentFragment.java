@@ -24,14 +24,13 @@ import android.media.MediaPlayer;
 
 
 public class AssesmentFragment extends Fragment {
-	HashMap<String, String> letters=new HashMap<String, String>();
-	List<String> lettersKeys = new ArrayList<String>();
-	List<String> availableLetterKeys = new ArrayList<String>();
+	HashMap<String, String> letters=new HashMap<String, String>();//used to hold letters and there icons mapping
+	List<String> lettersKeys = new ArrayList<String>();//used to hold letters
+	List<String> availableLetterKeys = new ArrayList<String>();//used in assessment to hold lettters that are pending for assessment
 	LinearLayout assesmentContainer;
 	int totalAssessmentTries = 10;
 	int currentAssessmentCount = 0;
 	String currentLetterOfAssessment = "";
-	int totalTryPerAssessment = 3;
 	int currentTryOfAssessment = 0;
 	TextView numberOfTriesLeft;
 	Timer nextAssessmentTimer;
@@ -39,6 +38,8 @@ public class AssesmentFragment extends Fragment {
 	long assessmentStartTime;
 	long assessmentEndTime;
 	int totalInCorrectAnswers=0;
+	Timer repeatPromptTimer;
+	MediaPlayer mediaPlayer;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -66,15 +67,18 @@ public class AssesmentFragment extends Fragment {
 			return rootView;
 	}
 
+	//function to start assessment
 	public void startAssessment(){
-		currentAssessmentCount++;
-		currentTryOfAssessment++;
-		numberOfTriesLeft.setText("Tries " + currentAssessmentCount + "/" + totalAssessmentTries);
+		currentAssessmentCount++;//increase count
+		currentTryOfAssessment++;//increase tries count
+		numberOfTriesLeft.setText("Tries " + currentAssessmentCount + "/" + totalAssessmentTries);//show on view
 		randomizeList();
 		setRandomLetterForAssessment();
 		playAudioPrompt();
+		repeatPrompt();
 	}
 
+	//function to randomize letters and show on ui
 	public void randomizeList(){
 
 		//shuffling collections to generate random order.
@@ -106,6 +110,7 @@ public class AssesmentFragment extends Fragment {
 		}
 	}
 
+	//selecting random letter for current assessment
 	public void setRandomLetterForAssessment(){
 		//Setting random letter for current assessment;
 		int min = 0;
@@ -122,12 +127,14 @@ public class AssesmentFragment extends Fragment {
 		}
 	}
 
+	//play letter touch audio prompt
 	public void playAudioPrompt(){
-		int audioResources = getResources().getIdentifier(currentLetterOfAssessment.toLowerCase()+"touchsay", "raw", getActivity().getPackageName());
-		MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
+		int audioResources = getResources().getIdentifier(currentLetterOfAssessment.toLowerCase() + "touchsay", "raw", getActivity().getPackageName());
+		mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
 		mediaPlayer.start();
 	}
 
+	//function to check user answer
 	public void checkAnswer(String letterTouched, ImageView icon){
 		if(letterTouched.equals(currentLetterOfAssessment)){
 			correctAnswer(letterTouched, icon);
@@ -136,6 +143,7 @@ public class AssesmentFragment extends Fragment {
 		}
 	}
 
+	//function called when answer is correct
 	public void correctAnswer(String letterTouched, ImageView icon){
 		//change to green icon and play cheerful sound and restart assessment
 		int imageResource = getResources().getIdentifier(letterTouched.toLowerCase()+"green", "drawable", getActivity().getPackageName());
@@ -143,16 +151,31 @@ public class AssesmentFragment extends Fragment {
 		icon.setImageDrawable(res);
 		totalCorrectAnswers++;
 		playSuccessPrompt();
+		stopRepeatPrompt();
+
+		//check if user has identified all the three letters
 		if((currentTryOfAssessment == totalAssessmentTries) || totalCorrectAnswers == 3){
 			//Game is over.
-			numberOfTriesLeft.setText("Game Over");
-			assesmentContainer.removeAllViews();
-			assessmentEndTime = System.currentTimeMillis();
+			nextAssessmentTimer = new Timer();
+			TimerTask delayedTask = new TimerTask() {
+				@Override
+				public void run() {
+					getActivity().runOnUiThread(new Runnable() {
+						public void run() {
+							numberOfTriesLeft.setText("Game Over");
+							assesmentContainer.removeAllViews();
+							assessmentEndTime = System.currentTimeMillis();
+						}
+					});
+				}
+			};
+			nextAssessmentTimer.schedule(delayedTask, 3000);
 		}else{
 			startAssessmentAfterDelay();
 		}
 	}
 
+	//function called when answer is wrong
 	public void wrongAnswer(String letterTouched, ImageView icon){
 		//change to grey icon, remove icon listener and play wrong sound
 		int imageResource = getResources().getIdentifier(letterTouched.toLowerCase()+"greyed", "drawable", getActivity().getPackageName());
@@ -160,11 +183,11 @@ public class AssesmentFragment extends Fragment {
 		icon.setImageDrawable(res);
 		icon.setOnClickListener(null);
 		currentAssessmentCount++;
-		playAudioPrompt();
 		numberOfTriesLeft.setText("Tries " + currentAssessmentCount + "/" + totalAssessmentTries);
 		totalInCorrectAnswers++;
 	}
 
+	//function to add some delay in starting next assessment so user can hear cheerful sound
 	public void startAssessmentAfterDelay(){
 		nextAssessmentTimer = new Timer();
 		TimerTask delayedTask = new TimerTask() {
@@ -181,9 +204,29 @@ public class AssesmentFragment extends Fragment {
 		nextAssessmentTimer.schedule(delayedTask, 6000);
 	}
 
+	//function to play cheerful sound on correct anser
 	public void playSuccessPrompt(){
 		int audioResources = getResources().getIdentifier("cheering", "raw", getActivity().getPackageName());
 		MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
 		mediaPlayer.start();
+	}
+
+	//function to repeat prompt letter touch
+	public void repeatPrompt(){
+		repeatPromptTimer = new Timer();
+		repeatPromptTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				playAudioPrompt();
+			}
+		}, 0, 6000);//3 seocnds to play prompt + 3 seconds delay so total 6 seconds
+	}
+
+	//stop repeating prompt on correct answer.
+	public void stopRepeatPrompt(){
+		repeatPromptTimer.cancel();
+		if(mediaPlayer.isPlaying()){
+			mediaPlayer.stop();
+		}
 	}
 }
