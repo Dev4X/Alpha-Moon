@@ -33,6 +33,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     String EVENT = "event";//Can be start, pause(stop), resume, complete, error
     String TIME = "time";//Time of event
 
+    String DEV4X_ASSESSMENTS = "dev4x_assessments";
+    String AID = "aid";
+    String INCORRECT_SELECTIONS = "incorrect_selections";
+    String IS_COMPLETED = "is_completed";
+    String START_TIME = "start_time";
+    String END_TIME = "end_time";
+
     private Context context;
 
     //Constructor function to create or connecte to database.
