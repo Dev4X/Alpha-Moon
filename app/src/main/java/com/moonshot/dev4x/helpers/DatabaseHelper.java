@@ -18,7 +18,7 @@ import com.moonshot.dev4x.models.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;//Initial database version
+    private static final int DATABASE_VERSION = 5;//Initial database version
     private static final String DATABASE_NAME = "dev4xDb"; //Name of database
     String DEV4X_NODES_TABLE = "dev4x_nodes";
     String ID = "id";
@@ -91,6 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + DEV4X_NODES_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + DEV4X_CONTENT_CONSUMPTIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + DEV4X_ASSESSMENTS);
         this.onCreate(db);
     }
 
