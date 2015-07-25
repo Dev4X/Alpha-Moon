@@ -23,12 +23,12 @@ public class MainActivity extends FragmentActivity{
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.contentHolder, homeFragment).commit();
 		
-		//Checking if user is coming back to this activity after completing video then start the assesment
+		//Checking if user is coming back to this activity after completing video then start the assessment
 		if(getIntent().hasExtra("assesment")){
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			Fragment assessmentFragment = new AssesmentFragment();
 			Bundle bundle = new Bundle();
-			bundle.putString("nodeId", getIntent().getExtras().getString("nodeId"));
+			bundle.putString("nodeId", String.valueOf(getIntent().getExtras().getInt("nodeId")));
 			assessmentFragment.setArguments(bundle);
 		    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		    fragmentTransaction.replace(R.id.contentHolder, assessmentFragment,"ASSESSMENT_FRAGMENT");

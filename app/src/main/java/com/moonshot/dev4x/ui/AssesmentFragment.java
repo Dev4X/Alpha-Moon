@@ -2,6 +2,8 @@ package com.moonshot.dev4x.ui;
 
 import com.moonshot.dev4x.R;
 import com.moonshot.dev4x.eventhandlers.LetterIconOnClickListener;
+import com.moonshot.dev4x.helpers.DatabaseHelper;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +42,9 @@ public class AssesmentFragment extends Fragment {
 	int totalInCorrectAnswers=0;
 	Timer repeatPromptTimer;
 	MediaPlayer mediaPlayer;
+	long aid;
+	int nodeId;
+	DatabaseHelper dbHelper;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class AssesmentFragment extends Fragment {
 				.findViewById(R.id.assesmentContainer);
 			numberOfTriesLeft = (TextView) rootView
 					.findViewById(R.id.numberOfTriesLeft);
+
+			dbHelper = new DatabaseHelper(getActivity());
 			//Adding letters to collections, later it will be random three letters selection from alphabet.
 			letters.put("A", "ablue");
 			letters.put("B", "bblue");
@@ -63,6 +70,13 @@ public class AssesmentFragment extends Fragment {
 			availableLetterKeys.add("B");
 			availableLetterKeys.add("C");
 			assessmentStartTime = System.currentTimeMillis();
+
+			//Creating database entry for assessment
+			Bundle bundle = this.getArguments();
+			nodeId = Integer.parseInt(bundle.getString("nodeId"));
+
+			aid = dbHelper.startAssessment(nodeId, assessmentStartTime);
+			Log.v("assessment id", "assessment - "+aid);
 			startAssessment();
 			return rootView;
 	}
@@ -164,6 +178,7 @@ public class AssesmentFragment extends Fragment {
 							numberOfTriesLeft.setText("Game Over");
 							assesmentContainer.removeAllViews();
 							assessmentEndTime = System.currentTimeMillis();
+							dbHelper.endAssessment(aid, assessmentEndTime, totalInCorrectAnswers);
 						}
 					});
 				}

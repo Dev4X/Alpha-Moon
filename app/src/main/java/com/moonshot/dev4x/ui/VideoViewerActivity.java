@@ -27,7 +27,7 @@ public class VideoViewerActivity extends Activity {
 		setContentView(R.layout.video_viewer);
 		String content = getIntent().getExtras().getString("content");
 		this.nodeId = getIntent().getExtras().getInt("id");
-		
+		Log.v("Video_Id","Video_Id"+this.nodeId);
 		//setting start event for video in database
 		db = new DatabaseHelper(this);
 		db.createVideoConsumptionSessionEvent(nodeId, "start");
@@ -57,7 +57,7 @@ public class VideoViewerActivity extends Activity {
 	    		//starting main activity and pass param to start assessment
 	    		Intent mainIntent = new Intent(this, MainActivity.class);
 	    		mainIntent.putExtra("assesment", true);
-	    		mainIntent.putExtra("nodeId", this.nodeId);
+	    		mainIntent.putExtra("nodeId", nodeId);
 				startActivity(mainIntent);
 	    	}
 	    }else{

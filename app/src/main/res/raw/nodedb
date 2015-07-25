@@ -7,11 +7,10 @@ CREATE TABLE IF NOT EXISTS dev4x_nodes (
   PRIMARY KEY (id));
 
 CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
-  cid INT NOT NULL,
+  cid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   id INT NULL,
   event VARCHAR(45) NULL,
   time TIMESTAMP NULL,
-  PRIMARY KEY (cid),
   CONSTRAINT id
     FOREIGN KEY (id)
     REFERENCES dev4x_nodes (id)
@@ -19,13 +18,12 @@ CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
     ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS dev4x_assessments (
-  aid INT NOT NULL,
+  aid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   id INT NULL,
   incorrect_selections INT NULL,
   is_completed BOOLEAN,
   start_time TIMESTAMP NULL,
   end_time TIMESTAMP NULL,
-  PRIMARY KEY (aid),
   CONSTRAINT id
       FOREIGN KEY (id)
       REFERENCES dev4x_nodes (id)

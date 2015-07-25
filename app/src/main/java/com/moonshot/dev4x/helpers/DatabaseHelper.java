@@ -160,6 +160,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DEV4X_CONTENT_CONSUMPTIONS, null, values);
     }
 
+    public long startAssessment(int contentId, long startTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ID, contentId);
+        values.put(START_TIME, startTime);
+        values.put(IS_COMPLETED, false);
+        long aid = db.insert(DEV4X_ASSESSMENTS, null, values);
+        return aid;
+    }
+
+    public void endAssessment(long aid, long endTime, int incorrectAnswers){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(END_TIME, endTime);
+        values.put(INCORRECT_SELECTIONS, incorrectAnswers);
+        values.put(IS_COMPLETED, true);
+        db.update(DEV4X_ASSESSMENTS, values, AID + " = ?",
+                new String[]{String.valueOf(aid)});
+    }
+
     public Context getContext() {
         return context;
     }
