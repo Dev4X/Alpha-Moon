@@ -1,6 +1,8 @@
 package com.moonshot.dev4x.ui;
 
 import com.moonshot.dev4x.R;
+import com.moonshot.dev4x.helpers.DatabaseHelper;
+import com.moonshot.dev4x.helpers.SharedPreferencesHelper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 public class MainActivity extends FragmentActivity{
+	DatabaseHelper db;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +42,22 @@ public class MainActivity extends FragmentActivity{
 	
 	@Override
 	public void onResume() {
-	   super.onResume();
+		super.onResume();
+		//Check if there is a value of nodeId in shared preference
+		SharedPreferencesHelper spHelper = new SharedPreferencesHelper(this);
+		String nodeId = spHelper.getPreferenceValue("nodeId");
+
+		if(nodeId != null){
+			Log.v("Node","There is a node id");
+			//Node id found, that means user is coming back from external app to our app.
+			//Record end event in database
+			db = new DatabaseHelper(this);
+			db.createVideoConsumptionSessionEvent(Integer.parseInt(nodeId),"complete");
+
+			//Remove node id from shared preference
+			spHelper.removePreferenceValue("nodeId");
+		}else{
+			Log.v("Node","There is no node id");
+		}
 	}
 }

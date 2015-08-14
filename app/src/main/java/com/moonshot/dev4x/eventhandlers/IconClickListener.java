@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.*;
 import android.widget.Toast;
+import com.moonshot.dev4x.helpers.SharedPreferencesHelper;
 
 public class IconClickListener implements OnClickListener{
 	private Context context;
@@ -30,7 +31,9 @@ public class IconClickListener implements OnClickListener{
 		int nodeId = icon.getId();
 		DatabaseHelper dbHelper = new DatabaseHelper(this.context);
 		Node node = dbHelper.getNode(nodeId);
-		
+
+		SharedPreferencesHelper spHelper = new SharedPreferencesHelper(this.context);
+
 		if(node != null){
 			//Creating Video Viewer Fragment.
 			if(node.getContentType().equals("internal") && node.getContentSubType().equals("video")){
@@ -56,6 +59,12 @@ public class IconClickListener implements OnClickListener{
 					//Launch the application
 					Intent launchIntent = pm.getLaunchIntentForPackage(node.getContent());
 					((FragmentActivity)context).startActivity(launchIntent);
+					//Increasing view count of application.
+					dbHelper.increaseViewCountofContent(node.getId());
+					//Recording start event in database for application
+					dbHelper.createVideoConsumptionSessionEvent(node.getId(), "start");
+					//Saving value in shared preference so we can track it again when app starts.
+					spHelper.savePreferences("nodeId",String.valueOf(node.getId()));
 				}
 			}
 		}
