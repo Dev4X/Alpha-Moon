@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS dev4x_nodes (
   name VARCHAR(45) NULL,
   icon VARCHAR(45) NULL,
   view_count INT NULL,
-  content VARCHAR(45) NULL,
+  content VARCHAR(200) NULL,
+  content_type VARCHAR(45) NULL,
+  content_sub_type VARCHAR(45) NULL,
   PRIMARY KEY (id));
 
 CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
@@ -32,5 +34,8 @@ CREATE TABLE IF NOT EXISTS dev4x_assessments (
 
 CREATE INDEX id_idx ON dev4x_content_consumptions (id ASC);
 
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content) VALUES (1, 'VerbalSkills', 'node1', 0, 'abc');
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content) VALUES (2, 'MathSkills', 'node2', 0, 'abc');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (1, 'VerbalSkills', 'node1', 0, 'abc', 'internal', 'video');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (2, 'MathSkills', 'node2', 0, 'abc', 'internal', 'video');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (3, 'SwahiliPhonics', 'swalihiphonics', 0, 'com.einbrain.swahili01','external', 'app');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (4, 'ABC Phonics', 'abcphonics72', 0, 'kr.co.smartstudy.phonicsiap_android_googlemarket', 'external', 'app');
+INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (5, 'Endless Alphabet', 'endlessalphabet', 0, 'com.originatorkids.EndlessAlphabet', 'external', 'app');

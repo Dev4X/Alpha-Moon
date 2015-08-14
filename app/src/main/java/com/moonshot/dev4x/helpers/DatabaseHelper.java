@@ -110,7 +110,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         Integer.parseInt(cursor.getString(3)),
-                        cursor.getString(4));
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6));
                 nodeList.add(node);
             } while (cursor.moveToNext());
         }
@@ -128,7 +130,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         Integer.parseInt(cursor.getString(3)),
-                        cursor.getString(4));
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6));
                 return node;
             } while (cursor.moveToNext());
         }

@@ -16,18 +16,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.util.Log;
 
 public class HomeFragment extends Fragment {
 	DatabaseHelper dbHelper;
 	List<Node> nodeList;
-	LinearLayout homeContainer;
+	LinearLayout homeInnerContentContainer;
+	LinearLayout homeExternalContentContainer;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 			//Inflate home layout to replace content holder.
 			View rootView = inflater.inflate(R.layout.home, null);
-			homeContainer = (LinearLayout) rootView
-					.findViewById(R.id.homeContainer);
+			homeInnerContentContainer = (LinearLayout) rootView
+					.findViewById(R.id.homeInnerContentContainer);
+
+			homeExternalContentContainer = (LinearLayout) rootView
+				.findViewById(R.id.homeExternalContentContainer);
 			//Creating database helper object to get data.
 			dbHelper = new DatabaseHelper(getActivity());
 			
@@ -43,8 +48,13 @@ public class HomeFragment extends Fragment {
 	
 	public void buildLayout(){
 		for(int i=0;i<nodeList.size();i++){
+			Log.v("node","node_count");
 			ImageView nodeImage = createImageView(i);
-			homeContainer.addView(nodeImage);
+			if(nodeList.get(i).getContentType().equals("internal")){
+				homeInnerContentContainer.addView(nodeImage);
+			}else{
+				homeExternalContentContainer.addView(nodeImage);
+			}
 		}
 	}
 	

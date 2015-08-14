@@ -7,16 +7,20 @@ public class Node {
     String icon;
     int viewCount;
     String content;
+    String content_type;
+    String content_sub_type;
 
     public Node() {
     }
 
-    public Node(int id, String name, String icon, int viewCount, String content) {
+    public Node(int id, String name, String icon, int viewCount, String content, String content_type, String content_sub_type) {
         this.id = id;
         this.name = name;
         this.icon = icon;
         this.viewCount = viewCount;
         this.content = content;
+        this.content_type = content_type;
+        this.content_sub_type = content_sub_type;
     }
 
     public String getName() {
@@ -57,5 +61,21 @@ public class Node {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getContentType(){
+        return this.content_type;
+    }
+
+    public void setContentType(String content_type){
+        this.content_type = content_type;
+    }
+
+    public String getContentSubType(){
+        return this.content_sub_type;
+    }
+
+    public void setContentSubType(String content_sub_type){
+        this.content_sub_type = content_sub_type;
     }
 }
