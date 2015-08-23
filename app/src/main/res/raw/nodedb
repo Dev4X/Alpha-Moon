@@ -1,41 +1,61 @@
-CREATE TABLE IF NOT EXISTS dev4x_nodes (
-  id INT NOT NULL,
+CREATE TABLE IF NOT EXISTS dev4x_skillsets(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name VARCHAR(45) NULL,
   icon VARCHAR(45) NULL,
-  view_count INT NULL,
+  view_count INT NULL
+);
+
+CREATE TABLE IF NOT EXISTS dev4x_nodes(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  skill_id INTEGER,
+  content_id INTEGER,
+  FOREIGN KEY (skill_id) REFERENCES dev4x_skillsets (id),
+  FOREIGN KEY (content_id) REFERENCES dev4x_contents (id)
+);
+
+CREATE TABLE IF NOT EXISTS dev4x_contents (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   content VARCHAR(200) NULL,
   content_type VARCHAR(45) NULL,
-  content_sub_type VARCHAR(45) NULL,
-  PRIMARY KEY (id));
+  content_sub_type VARCHAR(45) NULL);
 
 CREATE TABLE IF NOT EXISTS dev4x_content_consumptions (
   cid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  id INT NULL,
+  content_id INT NULL,
+  node_id INT NULL,
+  skill_id INT NULL,
   event VARCHAR(45) NULL,
   time TIMESTAMP NULL,
-  CONSTRAINT id
-    FOREIGN KEY (id)
-    REFERENCES dev4x_nodes (id)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+  FOREIGN KEY (content_id) REFERENCES dev4x_contents (id),
+  FOREIGN KEY (node_id) REFERENCES dev4x_nodes (id),
+  FOREIGN KEY (skill_id) REFERENCES dev4x_skillsets (id));
 
 CREATE TABLE IF NOT EXISTS dev4x_assessments (
   aid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  id INT NULL,
+  content_id INT NULL,
+  node_id INT NULL,
+  skill_id INT NULL,
   incorrect_selections INT NULL,
   is_completed BOOLEAN,
   start_time TIMESTAMP NULL,
   end_time TIMESTAMP NULL,
-  CONSTRAINT id
-      FOREIGN KEY (id)
-      REFERENCES dev4x_nodes (id)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION);
+  FOREIGN KEY (content_id) REFERENCES dev4x_contents (id),
+  FOREIGN KEY (node_id) REFERENCES dev4x_nodes (id),
+  FOREIGN KEY (skill_id) REFERENCES dev4x_skillsets (id));
 
-CREATE INDEX id_idx ON dev4x_content_consumptions (id ASC);
+INSERT INTO dev4x_skillsets (id, name, icon, view_count) VALUES (1, 'VerbalSkills', 'node1', 0);
+INSERT INTO dev4x_skillsets (id, name, icon, view_count) VALUES (2, 'MathSkills', 'node2', 0);
 
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (1, 'VerbalSkills', 'node1', 0, 'abc', 'internal', 'video');
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (2, 'MathSkills', 'node2', 0, 'abc', 'internal', 'video');
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (3, 'SwahiliPhonics', 'swalihiphonics', 0, 'com.einbrain.swahili01','external', 'app');
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (4, 'ABC Phonics', 'abcphonics72', 0, 'kr.co.smartstudy.phonicsiap_android_googlemarket', 'external', 'app');
-INSERT INTO dev4x_nodes (id, name, icon, view_count, content, content_type, content_sub_type) VALUES (5, 'Endless Alphabet', 'endlessalphabet', 0, 'com.originatorkids.EndlessAlphabet', 'external', 'app');
+
+INSERT INTO dev4x_contents (id, content, content_type, content_sub_type) VALUES(1, 'abc', 'internal', 'video');
+INSERT INTO dev4x_contents (id, content, content_type, content_sub_type) VALUES (2, 'com.einbrain.swahili01','external', 'app');
+INSERT INTO dev4x_contents (id, content, content_type, content_sub_type) VALUES (3, 'kr.co.smartstudy.phonicsiap_android_googlemarket', 'external', 'app');
+INSERT INTO dev4x_contents (id, content, content_type, content_sub_type) VALUES (4, 'com.originatorkids.EndlessAlphabet', 'external', 'app');
+
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(1, 1, 1);
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(2, 1, 2);
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(3, 1, 3);
+
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(4, 2, 2);
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(5, 2, 3);
+INSERT INTO dev4x_nodes (id, skill_id, content_id) VALUES(6, 2, 4);

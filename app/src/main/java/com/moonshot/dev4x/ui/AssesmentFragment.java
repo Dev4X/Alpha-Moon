@@ -44,6 +44,8 @@ public class AssesmentFragment extends Fragment {
 	MediaPlayer mediaPlayer;
 	long aid;
 	int nodeId;
+	int contentId;
+	int skillId;
 	DatabaseHelper dbHelper;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,9 +75,11 @@ public class AssesmentFragment extends Fragment {
 
 			//Creating database entry for assessment
 			Bundle bundle = this.getArguments();
+			contentId = Integer.parseInt(bundle.getString("contentId"));
 			nodeId = Integer.parseInt(bundle.getString("nodeId"));
+			skillId = Integer.parseInt(bundle.getString("skillId"));
 
-			aid = dbHelper.startAssessment(nodeId, assessmentStartTime);
+			aid = dbHelper.startAssessment(contentId,nodeId,skillId, assessmentStartTime);
 			Log.v("assessment id", "assessment - "+aid);
 			startAssessment();
 			return rootView;

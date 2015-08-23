@@ -18,6 +18,8 @@ public class VideoViewerActivity extends Activity {
 	int videoPosition;
 	long videoSessionId;
 	public int nodeId;
+	public int contentId;
+	public int skillId;
 	DatabaseHelper db;
 	boolean isActivityStarted = false;
 	public boolean isVideoCompleted = false;
@@ -26,11 +28,13 @@ public class VideoViewerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_viewer);
 		String content = getIntent().getExtras().getString("content");
-		this.nodeId = getIntent().getExtras().getInt("id");
+		this.nodeId = getIntent().getExtras().getInt("node_id");
+		this.contentId = getIntent().getExtras().getInt("content_id");
+		this.skillId = getIntent().getExtras().getInt("skill_id");
 		Log.v("Video_Id","Video_Id"+this.nodeId);
 		//setting start event for video in database
 		db = new DatabaseHelper(this);
-		db.createVideoConsumptionSessionEvent(nodeId, "start");
+		db.createVideoConsumptionSessionEvent(this.contentId, this.nodeId, this.skillId, "start");
 		this.isActivityStarted = true;
 		//assign video path and start playing
 		this.videoView = (VideoView)findViewById(R.id.videoViewComponent);
@@ -52,17 +56,19 @@ public class VideoViewerActivity extends Activity {
 	    	Log.v("VideoStatus","VideoStatus stopped");
 	    	//User press back button of android phone, hence stop event
 	    	if(this.isVideoCompleted == false){
-	    		db.createVideoConsumptionSessionEvent(nodeId, "stop");
+	    		db.createVideoConsumptionSessionEvent(this.contentId, this.nodeId, this.skillId, "stop");
 	    	}else{
 	    		//starting main activity and pass param to start assessment
 	    		Intent mainIntent = new Intent(this, MainActivity.class);
 	    		mainIntent.putExtra("assesment", true);
-	    		mainIntent.putExtra("nodeId", nodeId);
+	    		mainIntent.putExtra("contentId", this.contentId);
+				mainIntent.putExtra("nodeId", this.nodeId);
+				mainIntent.putExtra("skillId", this.skillId);
 				startActivity(mainIntent);
 	    	}
 	    }else{
 	    	Log.v("VideoStatus","VideoStatus Paused");
-	    	db.createVideoConsumptionSessionEvent(nodeId, "pause");
+	    	db.createVideoConsumptionSessionEvent(this.contentId, this.nodeId, this.skillId, "pause");
 	    }
 	}
 	
@@ -72,7 +78,7 @@ public class VideoViewerActivity extends Activity {
 	    //Database action to video resume
 	    videoView.seekTo(this.videoPosition);
 	    if(!this.isActivityStarted){
-	    	db.createVideoConsumptionSessionEvent(nodeId, "resume");
+	    	db.createVideoConsumptionSessionEvent(this.contentId, this.nodeId, this.skillId, "resume");
 	    }else{
 	    	this.isActivityStarted = false;
 	    }
