@@ -13,12 +13,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class MainActivity extends FragmentActivity{
 	DatabaseHelper db;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		//Setting up full screen mode for kisok mode
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//////////////
 		setContentView(R.layout.activity_main);
 		
 		//Creating Home Fragment and Replace it's layout to content holder

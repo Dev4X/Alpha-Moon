@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.VideoView;
 public class VideoViewerActivity extends Activity {
 	VideoView videoView;
@@ -26,6 +28,11 @@ public class VideoViewerActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Setting up full screen mode for kisok mode
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//////////////
 		setContentView(R.layout.video_viewer);
 		String content = getIntent().getExtras().getString("content");
 		this.nodeId = getIntent().getExtras().getInt("node_id");
