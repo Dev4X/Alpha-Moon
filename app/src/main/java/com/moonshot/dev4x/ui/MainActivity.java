@@ -71,8 +71,6 @@ public class MainActivity extends FragmentActivity{
 			Bundle bundle = new Bundle();
 			bundle.putString("contentId",contentId);
 			bundle.putString("nodeId", nodeId);
-			bundle.putString("nodeId", nodeId);
-			bundle.putString("nodeId", nodeId);
 			bundle.putString("skillId", skillId);
 			assessmentFragment.setArguments(bundle);
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

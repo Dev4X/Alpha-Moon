@@ -22,13 +22,16 @@ public class HomeFragment extends Fragment {
 	DatabaseHelper dbHelper;
 	List<SkillSets> skillSetsList;
 	LinearLayout homeInnerContentContainer;
+	LinearLayout homeInnerContentContainer1;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 			//Inflate home layout to replace content holder.
 			View rootView = inflater.inflate(R.layout.home, null);
 			homeInnerContentContainer = (LinearLayout) rootView
-					.findViewById(R.id.homeInnerContentContainer);
+					.findViewById(R.id.homeInnerContentContainerRow1);
+			homeInnerContentContainer1 = (LinearLayout) rootView
+				.findViewById(R.id.homeInnerContentContainerRow2);
 			//Creating database helper object to get data.
 			dbHelper = new DatabaseHelper(getActivity());
 			
@@ -46,7 +49,11 @@ public class HomeFragment extends Fragment {
 		for(int i=0;i<skillSetsList.size();i++){
 			Log.v("node","node_count");
 			ImageView nodeImage = createImageView(i);
-			homeInnerContentContainer.addView(nodeImage);
+			if(i>2){
+				homeInnerContentContainer1.addView(nodeImage);
+			}else {
+				homeInnerContentContainer.addView(nodeImage);
+			}
 		}
 	}
 	

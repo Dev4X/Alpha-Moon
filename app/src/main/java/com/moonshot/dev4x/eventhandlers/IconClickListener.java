@@ -5,6 +5,7 @@ import com.moonshot.dev4x.helpers.DatabaseHelper;
 import com.moonshot.dev4x.models.Content;
 import com.moonshot.dev4x.models.ContentConsumptions;
 import com.moonshot.dev4x.models.Node;
+import com.moonshot.dev4x.ui.H5PViewerActivity;
 import com.moonshot.dev4x.ui.HomeFragment;
 import com.moonshot.dev4x.ui.VideoViewerActivity;
 
@@ -94,6 +95,14 @@ public class IconClickListener implements OnClickListener{
 					spHelper.savePreferences("skill_id",String.valueOf(skillId));
 					spHelper.savePreferences("node_id",String.valueOf(con.getNodeId()));
 				}
+			}else if(con.getContentType().equals("internal") && con.getContentSubType().equals("h5p")){
+				//open web view activity with url
+				Intent videoIntent = new Intent((FragmentActivity)context, H5PViewerActivity.class);
+				videoIntent.putExtra("content", con.getContent());
+				videoIntent.putExtra("content_id", con.getId());
+				videoIntent.putExtra("skill_id", skillId);
+				videoIntent.putExtra("node_id", con.getNodeId());
+				((FragmentActivity)context).startActivity(videoIntent);
 			}
 		}else{
 			Toast toast = Toast.makeText(context, "Content Not Found", Toast.LENGTH_LONG);
