@@ -146,9 +146,13 @@ public class AssesmentFragment extends Fragment {
 
 	//play letter touch audio prompt
 	public void playAudioPrompt(){
-		int audioResources = getResources().getIdentifier(currentLetterOfAssessment.toLowerCase() + "touchsay", "raw", getActivity().getPackageName());
-		mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
-		mediaPlayer.start();
+		try {
+			int audioResources = getResources().getIdentifier(currentLetterOfAssessment.toLowerCase() + "touchsay", "raw", getActivity().getPackageName());
+			mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
+			mediaPlayer.start();
+		}catch (IllegalStateException e){
+
+		}
 	}
 
 	//function to check user answer
@@ -173,21 +177,25 @@ public class AssesmentFragment extends Fragment {
 		//check if user has identified all the three letters
 		if((currentTryOfAssessment == totalAssessmentTries) || totalCorrectAnswers == 3){
 			//Game is over.
-			nextAssessmentTimer = new Timer();
-			TimerTask delayedTask = new TimerTask() {
-				@Override
-				public void run() {
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							numberOfTriesLeft.setText("Game Over");
-							assesmentContainer.removeAllViews();
-							assessmentEndTime = System.currentTimeMillis();
-							dbHelper.endAssessment(aid, assessmentEndTime, totalInCorrectAnswers);
-						}
-					});
-				}
-			};
-			nextAssessmentTimer.schedule(delayedTask, 3000);
+			try {
+				nextAssessmentTimer = new Timer();
+				TimerTask delayedTask = new TimerTask() {
+					@Override
+					public void run() {
+						getActivity().runOnUiThread(new Runnable() {
+							public void run() {
+								numberOfTriesLeft.setText("Game Over");
+								assesmentContainer.removeAllViews();
+								assessmentEndTime = System.currentTimeMillis();
+								dbHelper.endAssessment(aid, assessmentEndTime, totalInCorrectAnswers);
+							}
+						});
+					}
+				};
+				nextAssessmentTimer.schedule(delayedTask, 3000);
+			}catch (IllegalStateException e){
+
+			}
 		}else{
 			startAssessmentAfterDelay();
 		}
@@ -207,37 +215,49 @@ public class AssesmentFragment extends Fragment {
 
 	//function to add some delay in starting next assessment so user can hear cheerful sound
 	public void startAssessmentAfterDelay(){
-		nextAssessmentTimer = new Timer();
-		TimerTask delayedTask = new TimerTask() {
-			@Override
-			public void run() {
-				getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						nextAssessmentTimer = null;
-						startAssessment();
-					}
-				});
-			}
-		};
-		nextAssessmentTimer.schedule(delayedTask, 6000);
+		try {
+			nextAssessmentTimer = new Timer();
+			TimerTask delayedTask = new TimerTask() {
+				@Override
+				public void run() {
+					getActivity().runOnUiThread(new Runnable() {
+						public void run() {
+							nextAssessmentTimer = null;
+							startAssessment();
+						}
+					});
+				}
+			};
+			nextAssessmentTimer.schedule(delayedTask, 6000);
+		}catch (IllegalStateException e){
+
+		}
 	}
 
 	//function to play cheerful sound on correct anser
 	public void playSuccessPrompt(){
-		int audioResources = getResources().getIdentifier("cheering", "raw", getActivity().getPackageName());
-		MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
-		mediaPlayer.start();
+		try {
+			int audioResources = getResources().getIdentifier("cheering", "raw", getActivity().getPackageName());
+			MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), audioResources);
+			mediaPlayer.start();
+		}catch (IllegalStateException e){
+
+		}
 	}
 
 	//function to repeat prompt letter touch
 	public void repeatPrompt(){
-		repeatPromptTimer = new Timer();
-		repeatPromptTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				playAudioPrompt();
-			}
-		}, 0, 6000);//3 seocnds to play prompt + 3 seconds delay so total 6 seconds
+		try {
+			repeatPromptTimer = new Timer();
+			repeatPromptTimer.scheduleAtFixedRate(new TimerTask() {
+				@Override
+				public void run() {
+					playAudioPrompt();
+				}
+			}, 0, 6000);//3 seocnds to play prompt + 3 seconds delay so total 6 seconds
+		}catch (IllegalStateException e){
+
+		}
 	}
 
 	//stop repeating prompt on correct answer.
