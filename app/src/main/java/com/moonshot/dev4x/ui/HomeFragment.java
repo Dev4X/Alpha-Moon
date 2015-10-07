@@ -16,18 +16,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.util.Log;
 
 public class HomeFragment extends Fragment {
 	DatabaseHelper dbHelper;
-	List<Node> nodeList;
-	LinearLayout homeContainer;
+	List<SkillSets> skillSetsList;
+	LinearLayout homeInnerContentContainer;
+	LinearLayout homeInnerContentContainer1;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 			//Inflate home layout to replace content holder.
 			View rootView = inflater.inflate(R.layout.home, null);
-			homeContainer = (LinearLayout) rootView
-					.findViewById(R.id.homeContainer);
+			homeInnerContentContainer = (LinearLayout) rootView
+					.findViewById(R.id.homeInnerContentContainerRow1);
+			homeInnerContentContainer1 = (LinearLayout) rootView
+				.findViewById(R.id.homeInnerContentContainerRow2);
 			//Creating database helper object to get data.
 			dbHelper = new DatabaseHelper(getActivity());
 			
@@ -38,13 +42,18 @@ public class HomeFragment extends Fragment {
 	}
 	
 	public void getNodesToDisplay(){
-		nodeList = dbHelper.getAllNodes();
+		skillSetsList = dbHelper.getAllSkillSets();
 	}
 	
 	public void buildLayout(){
-		for(int i=0;i<nodeList.size();i++){
+		for(int i=0;i<skillSetsList.size();i++){
+			Log.v("node","node_count");
 			ImageView nodeImage = createImageView(i);
-			homeContainer.addView(nodeImage);
+			if(i>2){
+				homeInnerContentContainer1.addView(nodeImage);
+			}else {
+				homeInnerContentContainer.addView(nodeImage);
+			}
 		}
 	}
 	
@@ -56,12 +65,12 @@ public class HomeFragment extends Fragment {
 		layoutParams.rightMargin = 20;
 		layoutParams.leftMargin = 20;
 		nodeImage.setLayoutParams(layoutParams);
-		nodeImage.setId(nodeList.get(imageCount).getId());
+		nodeImage.setId(skillSetsList.get(imageCount).getId());
 		////////////
 		
 		////Setting up image drawable to show icon
 		nodeImage.setScaleType(ScaleType.CENTER_INSIDE);
-		int imageResource = getResources().getIdentifier(nodeList.get(imageCount).getIcon(), "drawable", getActivity().getPackageName());
+		int imageResource = getResources().getIdentifier(skillSetsList.get(imageCount).getIcon(), "drawable", getActivity().getPackageName());
 		Drawable res = getResources().getDrawable(imageResource);
 		nodeImage.setImageDrawable(res);
 		////////////////////////

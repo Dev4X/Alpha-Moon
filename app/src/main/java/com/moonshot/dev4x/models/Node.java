@@ -3,28 +3,17 @@ package com.moonshot.dev4x.models;
 public class Node {
 
     int id;
-    String name;
-    String icon;
-    int viewCount;
-    String content;
+    int skill_id;
+    int content_id;
+
 
     public Node() {
     }
 
-    public Node(int id, String name, String icon, int viewCount, String content) {
+    public Node(int id, int skill_id, int content_id) {
         this.id = id;
-        this.name = name;
-        this.icon = icon;
-        this.viewCount = viewCount;
-        this.content = content;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.skill_id = skill_id;
+        this.content_id = content_id;
     }
 
     public int getId() {
@@ -35,27 +24,21 @@ public class Node {
         this.id = id;
     }
 
-    public String getIcon() {
-        return this.icon;
+    public int getSkillId() {
+        return this.skill_id;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setSkillId(int skill_id) {
+        this.skill_id = skill_id;
     }
 
-    public int getViewCount() {
-        return viewCount;
+    public int getContentId() {
+        return this.content_id;
     }
 
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
+    public void setContentId(int content_id) {
+        this.content_id = content_id;
     }
 
-    public String getContent() {
-        return content;
-    }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

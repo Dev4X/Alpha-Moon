@@ -19,9 +19,9 @@ public class VideoCompleteListener implements MediaPlayer.OnCompletionListener{
 		//finish video activity so user can go back to previous screen
 		//Do the database activity like increasing count and records.
 		DatabaseHelper db =  new DatabaseHelper(context);
-		db.increaseViewCountofContent(((VideoViewerActivity)this.context).nodeId);
+		db.increaseViewCountOfSkill(((VideoViewerActivity) this.context).skillId);
 		((VideoViewerActivity)this.context).isVideoCompleted = true;
-		db.createVideoConsumptionSessionEvent(((VideoViewerActivity)this.context).nodeId, "complete");//Adding complete event
+		db.createVideoConsumptionSessionEvent(((VideoViewerActivity)this.context).contentId,((VideoViewerActivity)this.context).nodeId,((VideoViewerActivity)this.context).skillId, "complete");//Adding complete event
 		((VideoViewerActivity)this.context).finish();
 	}
 	
