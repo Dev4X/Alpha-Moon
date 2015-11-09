@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.moonshot.dev4x"
-        minSdkVersion 13
-        targetSdkVersion 13
+        minSdkVersion 14
+        targetSdkVersion 14
     }
 
     buildTypes {
