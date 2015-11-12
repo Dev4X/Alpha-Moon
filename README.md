@@ -15,3 +15,6 @@ Now the project should load, and you should see sections 'app' and 'Gradle Scrip
 
 Step 3: You can test by clicking the green triangle to run.
 
+
+
+[![Join the chat at https://gitter.im/Dev4X/Alpha-Moon](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Dev4X/Alpha-Moon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
