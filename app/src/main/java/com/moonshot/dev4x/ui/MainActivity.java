@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity{
 				.replace(R.id.contentHolder, homeFragment).commit();
 		
 		//Checking if user is coming back to this activity after completing video then start the assessment
+		//TODO if a result is expected use ActivityForResult method
 		if(getIntent().hasExtra("assesment")){
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			Fragment assessmentFragment = new AssesmentFragment();
