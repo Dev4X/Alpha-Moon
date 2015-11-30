@@ -5,9 +5,10 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.moonshot.dev4x"
         minSdkVersion 19
         targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
@@ -15,6 +16,19 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+
+    productFlavors {
+        normal {
+            applicationId = "com.moonshot.dev4x.normal"
+        }
+        kiosk {
+            applicationId = "com.moonshot.dev4x.kiosk"
+        }
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
