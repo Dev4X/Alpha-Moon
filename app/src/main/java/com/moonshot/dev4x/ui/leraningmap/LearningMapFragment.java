@@ -32,7 +32,7 @@ public class LearningMapFragment extends BaseFragment {
 	@Override
 	protected View bindDataToView(View view) {
 		FragmentLearningMapBinding binding = DataBindingUtil.bind(view);
-		binding.setVm(new LearningMapFragmentViewModel());
+		binding.setVm(new LearningMapFragmentViewModel(getActivity()));
 		return view;
 	}
 }

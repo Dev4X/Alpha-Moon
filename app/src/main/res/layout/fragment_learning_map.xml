@@ -9,10 +9,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{vm.onClick}"
-            android:text="@{vm.test}"/>
+            android:src="@drawable/node1"
+            android:onClick="@{vm.onClickNode1}"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/node2"
+            android:onClick="@{vm.onClickNode2}"/>
     </LinearLayout>
 </layout>

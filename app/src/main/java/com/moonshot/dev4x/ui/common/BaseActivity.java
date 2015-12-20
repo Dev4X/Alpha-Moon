@@ -28,8 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract Intent createIntent(Context context);
-
     protected abstract int getContentLayoutId();
 
     protected void initiateFromBundle(Bundle bundle) {
